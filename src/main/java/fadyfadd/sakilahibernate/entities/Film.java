@@ -1,5 +1,7 @@
 package fadyfadd.sakilahibernate.entities;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 
@@ -19,9 +21,27 @@ public class Film {
 	private Integer releaseYear;
 	
 	
+	public List<Actor> getActors() {
+		return actors;
+	}
+	public void setActors(List<Actor> actors) {
+		this.actors = actors;
+	}
+	
+	@ManyToMany(fetch=FetchType.LAZY,
+			cascade= {CascadeType.PERSIST, CascadeType.MERGE,
+			 CascadeType.DETACH, CascadeType.REFRESH})
+
+	@JoinTable(
+			name="film_actor",
+			joinColumns=@JoinColumn(name="film_id"),
+			inverseJoinColumns=@JoinColumn(name="actor_id")
+			)
+	private List<Actor> actors;
+	
 	public Integer getReleaseYear() {
 		return releaseYear;
-	}
+	} 
 	public void setReleaseYear(Integer releaseYear) {
 		this.releaseYear = releaseYear;
 	}
