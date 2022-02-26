@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import fadyfadd.sakilahibernate.entities.Actor;
+import fadyfadd.sakilahibernate.entities.City;
+import fadyfadd.sakilahibernate.entities.Country;
 import fadyfadd.sakilahibernate.entities.Film;
 
 
@@ -98,4 +100,82 @@ public class AppTest
     	}    	
     	
     }
+
+  
+    @Test
+    public void getCities() {
+    	
+        SessionFactory factory = null; 
+    	Session session = null; 
+    	
+    	try {
+    			factory = new Configuration()
+    				.configure("hibernate.cfg.xml")
+    				.addAnnotatedClass(Country.class)
+    				.addAnnotatedClass(City.class)
+    				.buildSessionFactory();
+    			
+    			session = factory.getCurrentSession();
+    			session.beginTransaction();
+    			City aCity = session.get(City.class, 1);
+    			System.out.println(aCity);	
+    			assertTrue(aCity != null);
+    			session.getTransaction().commit();
+
+   	
+    	}
+    	catch (Throwable ex)
+    	{
+    		throw ex; 
+    		
+    	}
+    	
+    	finally {
+    		if (session != null)
+    			session.close();
+    		
+    		if (factory != null)
+    			factory.close();
+    	}        	
+    }
+
+    
+    @Test
+    public void getCountries() {
+    	
+        SessionFactory factory = null; 
+    	Session session = null; 
+    	
+    	try {
+    			factory = new Configuration()
+    				.configure("hibernate.cfg.xml")
+     				.addAnnotatedClass(Country.class)
+    				.addAnnotatedClass(City.class)
+    				.buildSessionFactory();
+    			
+    			session = factory.getCurrentSession();
+    			session.beginTransaction();
+    			Country aCountry = session.get(Country.class, 1);
+    			System.out.println(aCountry);	
+    			assertTrue(aCountry != null);
+    			session.getTransaction().commit();
+
+   	
+    	}
+    	catch (Throwable ex)
+    	{
+    		throw ex; 
+    		
+    	}
+    	
+    	finally {
+    		if (session != null)
+    			session.close();
+    		
+    		if (factory != null)
+    			factory.close();
+    	}        	
+    }
+
+
 }
