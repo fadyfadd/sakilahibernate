@@ -2,6 +2,9 @@ package fadyfadd.sakilahibernate;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
+//import org.hibernate.query.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -176,6 +179,59 @@ public class AppTest
     			factory.close();
     	}        	
     }
+    
+    
+    @Test
+    public void citiesCountriesQuery() {
+    	
+        SessionFactory factory = null; 
+    	Session session = null; 
+    	
+    	try {
+    			factory = new Configuration()
+    				.configure("hibernate.cfg.xml")
+     				.addAnnotatedClass(Country.class)
+    				.addAnnotatedClass(City.class)
+    				.buildSessionFactory();
+    			
+    			session = factory.getCurrentSession();
+    			session.beginTransaction();
+ 
+    			List<?> rows =  
+    					session.createQuery("select cn , ct from Country cn inner join City ct on ct.country = cn").getResultList();
+    			
+    			
+    			assertTrue(true);
+    			
+    			 for (Object row : rows ) {
+    				 
+    				 Object[] data = (Object[])row; 
+    				 
+    				 Country country = (Country)data[0];
+    				 City city = (City)data[1];
+    				 System.out.println(country.getCountry() + "----" + city.getCity());
+    				 
+    			 }
+    			
+    			
+    			session.getTransaction().commit();
+
+   	
+    	}
+    	catch (Throwable ex)
+    	{
+    		throw ex; 
+    		
+    	}
+    	
+    	finally {
+    		if (session != null)
+    			session.close();
+    		
+    		if (factory != null)
+    			factory.close();
+    	}        	
+    }   
 
 
 }
